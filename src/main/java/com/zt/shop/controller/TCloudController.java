@@ -37,18 +37,19 @@ public class TCloudController {
     public String uploadImg(@RequestParam("file") MultipartFile[] file, @RequestParam("skuName") String skuName, @RequestParam("price") BigDecimal price,
                                   @RequestParam("skuNum") String skuNum, @RequestParam("skuDes") String skuDes, HttpServletRequest request) throws IOException {
         System.out.println("start upload");
+        String imgUrl = "";
         List<String> list = new ArrayList<>();
         for (MultipartFile multipartFile : file) {
             String returnUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
             String originalFilename = multipartFile.getOriginalFilename();
-            String filePath = System.getProperty("user.dir") + "/src/main/resources/static/" + skuNum;
+            String filePath = System.getProperty("user.dir")+"/img/" + skuNum;
             File dir = new File(filePath);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
             String fileSavePath = filePath + File.separator + originalFilename;
-            String imgUrl = returnUrl + File.separator + originalFilename;
-            System.out.println("保存图片的地址是：" + filePath);
+            imgUrl = returnUrl+"/img/" + skuNum + File.separator + originalFilename;
+            System.out.println("保存图片的地址是：" + fileSavePath);
             System.out.println("访问图片的地址是：" + imgUrl);
             File imgFile = new File(fileSavePath);
 
@@ -61,7 +62,7 @@ public class TCloudController {
         ztSku.setSkuNum(skuNum);
         ztSku.setPrice(price);
         ztSkuMapper.insert(ztSku);
-        return "ok";
+        return imgUrl;
     }
 
 
