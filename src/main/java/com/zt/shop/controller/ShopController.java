@@ -9,6 +9,7 @@ import com.zt.shop.service.ShopService;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -32,9 +33,8 @@ public class ShopController {
     }
 
     @RequestMapping("getGoodsDetail")
-    public ResultDTO getGoodsDetail(@RequestBody String id){
-        Integer skuId = Integer.valueOf(JSON.parseObject(id).get("id").toString());
-        GoodsInfoDTO goods = shopService.getGoodsDetail(Integer.valueOf(skuId));
+    public ResultDTO getGoodsDetail(@RequestParam Integer id){
+        GoodsInfoDTO goods = shopService.getGoodsDetail(id);
         return ResultDTO.getSuccess(goods);
     }
 }
