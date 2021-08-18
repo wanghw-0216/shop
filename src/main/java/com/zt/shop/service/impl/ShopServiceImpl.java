@@ -9,6 +9,7 @@ import com.zt.shop.entity.dto.QueryDTO;
 import com.zt.shop.service.ShopService;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,9 +36,13 @@ public class ShopServiceImpl implements ShopService {
         List<GoodsInfoDTO> rtList = new ArrayList<>();
         for (ZTSku sku : ztSkus) {
             GoodsInfoDTO rtDTO = new GoodsInfoDTO();
+            String skuImg = sku.getSkuImg();
+            String[] split = skuImg.split(",");
+            if(split.length > 1){
+                rtDTO.setGoodsImg(Arrays.asList(split[0]));
+            }
             rtDTO.setId(sku.getId());
             rtDTO.setPrice(sku.getPrice());
-            rtDTO.setGoodsImg(Arrays.asList(sku.getSkuImg().split(",")));
             rtDTO.setGoodsName(sku.getSkuName());
             rtList.add(rtDTO);
         }
